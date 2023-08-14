@@ -12,7 +12,7 @@ export class Account {
       Total: this.balanced,
       Type: "withdraw",
     });
-    return this.balanced;
+    return true;
   }
 
   deposit(amount: number) {
@@ -23,7 +23,7 @@ export class Account {
       Total: this.balanced,
       Type: "deposit",
     });
-    return this.balanced;
+    return true;
   }
 
   displayBalance() {
