@@ -23,6 +23,27 @@ app.get("/", (req: Request, res: Response) => {
 app.post("/deposit", (req: Request, res: Response) => {
   const { amount } = req.body;
   const success = account.deposit(amount);
+  res.json({ message: "Deposit successful" });
+});
+
+app.post("/withdraw", (req: Request, res: Response) => {
+  const { amount } = req.body;
+  if (amount < 0) {
+    return res.json({ message: "Amount cannot be negative" });
+  } else {
+    const success = account.withdraw(amount);
+    res.json({ message: "Withdraw successful" });
+  }
+});
+
+app.get("/checkBalance", (req: Request, res: Response) => {
+  const bal = account.displayBalance();
+  res.json({ message: "Balance is " + bal });
+});
+
+app.get("/checkLog", (req: Request, res: Response) => {
+  const log = account.displayLog();
+  res.json({ message: log });
 });
 
 app.listen(PORT, () => {
