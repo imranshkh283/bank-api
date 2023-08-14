@@ -46,6 +46,12 @@ app.get("/checkLog", (req: Request, res: Response) => {
   res.json({ message: log });
 });
 
+app.post("/filterLog", (req: Request, res: Response) => {
+  const { type } = req.body;
+  const log = account.filterTransaction(type);
+  res.json({ log });
+});
+
 app.listen(PORT, () => {
   console.log(`Application started on port ${PORT}!`);
 });

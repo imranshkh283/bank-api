@@ -30,14 +30,19 @@ export class Account {
     return this.balanced;
   }
 
+  filterTransaction(type: string) {
+    const log = this.log.filter((item) => item.Type === type);
+    return log;
+  }
+
+  displayLog() {
+    return this.log;
+  }
+
   timelog() {
     const unixTimestamp = Date.now();
     const dateObject = new Date(unixTimestamp);
     const formattedDate = dateObject.toLocaleString();
     return formattedDate;
-  }
-
-  displayLog() {
-    return this.log;
   }
 }
