@@ -1,12 +1,11 @@
 import bodyParser from "body-parser";
 import * as dotenv from "dotenv";
 
-import { Account } from "../classes/account";
+import { SavingAccount } from "../classes/saving_account";
 
 dotenv.config();
 
-import express from "express";
-import { Request, Response } from "express";
+import express, { Request, Response } from "express";
 
 const app = express();
 
@@ -14,10 +13,20 @@ const PORT = process.env.PORT || 8081;
 
 app.use(bodyParser.json());
 
-const account = new Account();
+const account = new SavingAccount();
 
 app.get("/", (req: Request, res: Response) => {
   res.send("hello world!");
+});
+
+app.post("/createAccount", (req: Request, res: Response) => {
+  const { accountNumber } = req.body;
+  account.createAccount(accountNumber);
+  res.json({ message: "Account created" });
+});
+
+app.get("/showAccount", (req: Request, res: Response) => {
+  res.json(account.getAccount());
 });
 
 app.post("/deposit", (req: Request, res: Response) => {

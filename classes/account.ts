@@ -2,31 +2,22 @@ interface Transaction {
   Amount: number;
   Date: any;
   Total: number;
-  Type: string;
+  Type: "deposit" | "withdraw";
+  status: "success" | "failed";
 }
 
-export class Account {
+export class Bank {
   protected balanced: number = 0;
-  public withdrawDate: number = 0;
-  public depositDate: number = 0;
-  protected log: any[] = [];
-
-  transaction(trans: Transaction) {
-    this.log.push({
-      Amount: trans.Amount,
-      Date: this.timelog(),
-      Total: this.balanced,
-      Type: trans.Type,
-    });
-  }
+  public log: Transaction[] = [];
 
   deposit(amount: number) {
     this.balanced += amount;
     const data: Transaction = {
       Amount: amount,
-      Date: this.timelog(),
+      Date: Bank.timelog(),
       Total: this.balanced,
       Type: "deposit",
+      status: "success",
     };
     this.transaction(data);
 
@@ -37,12 +28,23 @@ export class Account {
     this.balanced -= amount;
     const data: Transaction = {
       Amount: amount,
-      Date: this.timelog(),
+      Date: Bank.timelog(),
       Total: this.balanced,
       Type: "withdraw",
+      status: "success",
     };
     this.transaction(data);
     return true;
+  }
+
+  transaction(trans: Transaction) {
+    this.log.push({
+      Amount: trans.Amount,
+      Date: Bank.timelog(),
+      Total: this.balanced,
+      Type: trans.Type,
+      status: trans.status,
+    });
   }
 
   displayBalance() {
@@ -58,7 +60,7 @@ export class Account {
     return this.log;
   }
 
-  timelog() {
+  static timelog() {
     const unixTimestamp = Date.now();
     const dateObject = new Date(unixTimestamp);
     const formattedDate = dateObject.toLocaleString();
