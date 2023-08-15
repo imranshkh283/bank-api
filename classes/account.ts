@@ -29,23 +29,19 @@ export class Account {
       Type: "deposit",
     };
     this.transaction(data);
-    /* this.log.push({
-      Amount: amount,
-      Date: this.timelog(),
-      Total: this.balanced,
-      Type: "deposit",
-    }); */
+
     return true;
   }
 
   withdraw(amount: number) {
     this.balanced -= amount;
-    this.log.push({
+    const data: Transaction = {
       Amount: amount,
       Date: this.timelog(),
       Total: this.balanced,
       Type: "withdraw",
-    });
+    };
+    this.transaction(data);
     return true;
   }
 
